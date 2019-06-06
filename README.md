@@ -29,7 +29,7 @@ IPIP典型客户
 
 这里不详细介绍安装 composer 了，大家根据 [链接](https://getcomposer.org/) 自行安装吧！
 
-`composer require "zhuzhichao/ip-location-zh"`
+`composer require "zqhong/ip-location-zh"`
 
 ## Usage
 

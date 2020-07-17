@@ -16,6 +16,15 @@ class Ip
     private $nodeCount = 0;
     private $nodeOffset = 0;
 
+    private $ispCernet = [];
+    private $ispChinaNet = [];
+    private $ispCmcc = [];
+    private $ispCstNet = [];
+    private $ispDrPeng = [];
+    private $ispGoogleCn = [];
+    private $ispTieTong = [];
+    private $ispUnicom = [];
+
     private $meta = [];
 
     private $database = 'ipipfree.ipdb';
@@ -72,9 +81,11 @@ class Ip
      *
      * @param string $ip
      * @return IpInfo
+     * @throws Exception
      */
     public static function findV2($ip)
     {
+        $reader = self::init();
         $findResult = static::find($ip);
         $ipInfo = new IpInfo();
 
@@ -90,6 +101,8 @@ class Ip
         if (isset($findResult[4])) {
             $ipInfo->setZipCode($findResult[4]);
         }
+
+        $ipInfo->setIsp($reader->getIsp($ip));
 
         return $ipInfo;
     }
@@ -260,9 +273,111 @@ class Ip
         $reader->nodeCount = $reader->meta['node_count'];
         $reader->nodeOffset = 4 + $metaLength;
 
+        $reader->readIspData();
+
         self::$reader = $reader;
 
         return $reader;
+    }
+
+    /**
+     * 读取 ISP 数据
+     */
+    private function readIspData()
+    {
+        $readFuc = function ($filePath) {
+            if (is_readable($filePath) === false) {
+                throw new InvalidArgumentException("The CIDR file \"{$filePath}\" does not exist or is not readable.");
+            }
+            $content = file_get_contents($filePath);
+            $cidrArr = explode("\n", $content);
+            foreach ($cidrArr as $k => $cidr) {
+                $cidrArr[$k] = trim($cidr);
+            }
+            return $cidrArr;
+        };
+
+        $this->ispCernet = $readFuc(__DIR__ . '/data/isp/cernet.txt');
+        $this->ispChinaNet = $readFuc(__DIR__ . '/data/isp/chinanet.txt');
+        $this->ispCmcc = $readFuc(__DIR__ . '/data/isp/cmcc.txt');
+        $this->ispCstNet = $readFuc(__DIR__ . '/data/isp/cstnet.txt');
+        $this->ispDrPeng = $readFuc(__DIR__ . '/data/isp/drpeng.txt');
+        $this->ispGoogleCn = $readFuc(__DIR__ . '/data/isp/googlecn.txt');
+        $this->ispTieTong = $readFuc(__DIR__ . '/data/isp/tietong.txt');
+        $this->ispUnicom = $readFuc(__DIR__ . '/data/isp/unicom.txt');
+    }
+
+    /**
+     * 获取运营商名称
+     *
+     * @param string $ip
+     * @return string
+     */
+    private function getIsp($ip)
+    {
+        $isMatchFunc = function ($ip, $rangeArr) {
+            foreach ($rangeArr as $range) {
+                if ($this->cidrMatch($ip, $range)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        if ($isMatchFunc($ip, $this->ispCernet)) {
+            return IpInfo::ISP_CERNET;
+        }
+
+        if ($isMatchFunc($ip, $this->ispChinaNet)) {
+            return IpInfo::ISP_CHINA_NET;
+        }
+
+        if ($isMatchFunc($ip, $this->ispCmcc)) {
+            return IpInfo::ISP_CMCC;
+        }
+
+        if ($isMatchFunc($ip, $this->ispCstNet)) {
+            return IpInfo::ISP_CSTNET;
+        }
+
+        if ($isMatchFunc($ip, $this->ispDrPeng)) {
+            return IpInfo::ISP_DRPENG;
+        }
+
+        if ($isMatchFunc($ip, $this->ispGoogleCn)) {
+            return IpInfo::ISP_GOOGLE_CN;
+        }
+
+        if ($isMatchFunc($ip, $this->ispTieTong)) {
+            return IpInfo::ISP_TIE_TONG;
+        }
+
+        if ($isMatchFunc($ip, $this->ispUnicom)) {
+            return IpInfo::ISP_UNICOM;
+        }
+
+        return IpInfo::ISP_UNKNOWN;
+    }
+
+    /**
+     * 检查 $ip 是否在 $range（CIDR） 这个范围内
+     *
+     * @see https://stackoverflow.com/questions/594112/matching-an-ip-to-a-cidr-mask-in-php-5
+     * @param string $ip IP 地址，示例：233.5.5.5
+     * @param string $range CIDR，示例：43.252.48.0/24
+     * @return bool
+     */
+    private function cidrMatch($ip, $range)
+    {
+        list ($subnet, $bits) = explode('/', $range);
+        if ($bits === null) {
+            $bits = 32;
+        }
+        $ip = ip2long($ip);
+        $subnet = ip2long($subnet);
+        $mask = -1 << (32 - $bits);
+        $subnet &= $mask; # nb: in case the supplied subnet wasn't correctly aligned
+        return ($ip & $mask) == $subnet;
     }
 
     /**

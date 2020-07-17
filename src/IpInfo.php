@@ -30,7 +30,7 @@ class IpInfo
     /**
      * @var string 运营商名称
      */
-    protected $icp;
+    protected $isp;
 
     /**
      * @return string
@@ -99,17 +99,17 @@ class IpInfo
     /**
      * @return string
      */
-    public function getIcp()
+    public function getIsp()
     {
-        return $this->icp;
+        return $this->isp;
     }
 
     /**
-     * @param string $icp
+     * @param string $isp
      */
-    public function setIcp($icp)
+    public function setIsp($isp)
     {
-        $this->icp = $icp;
+        $this->isp = $isp;
     }
 
 }

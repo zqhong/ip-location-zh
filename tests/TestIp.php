@@ -4,9 +4,42 @@ require __DIR__.'/../vendor/autoload.php';
 
 use Zhuzhichao\IpLocationZh\Ip;
 use PHPUnit\Framework\TestCase;
+use Zhuzhichao\IpLocationZh\IpInfo;
 
 class TestIp extends TestCase
 {
+    public function testFindV2Isp()
+    {
+        // 电信
+        $ipInfo = Ip::findV2("171.12.10.156");
+        $this->assertEquals(IpInfo::ISP_CHINA_NET, $ipInfo->getIsp());
+
+        // 移动
+        $ipInfo = Ip::findV2("223.71.140.14");
+        $this->assertEquals(IpInfo::ISP_CMCC, $ipInfo->getIsp());
+
+        // 联通
+        $ipInfo = Ip::findV2("103.3.148.11");
+        $this->assertEquals(IpInfo::ISP_CMCC, $ipInfo->getIsp());
+
+        // 铁通
+        $ipInfo = Ip::findV2("120.90.0.41");
+        $this->assertEquals(IpInfo::ISP_TIE_TONG, $ipInfo->getIsp());
+
+        // 教育网
+        $ipInfo = Ip::findV2("202.192.0.46");
+        $this->assertEquals(IpInfo::ISP_TIE_TONG, $ipInfo->getIsp());
+
+        // 科技网
+        $ipInfo = Ip::findV2("210.73.0.11");
+        $this->assertEquals(IpInfo::ISP_CSTNET, $ipInfo->getIsp());
+
+        // 鹏博士
+        $ipInfo = Ip::findV2("43.243.144.7");
+        $this->assertEquals(IpInfo::ISP_DRPENG, $ipInfo->getIsp());
+
+    }
+
     public function testFindV2()
     {
         $ipInfo = Ip::findV2("171.12.10.156");

@@ -21,7 +21,6 @@ class Ip
     private $ispCmcc = [];
     private $ispCstNet = [];
     private $ispDrPeng = [];
-    private $ispGoogleCn = [];
     private $ispTieTong = [];
     private $ispUnicom = [];
 
@@ -344,10 +343,6 @@ class Ip
             return IpInfo::ISP_DRPENG;
         }
 
-        if ($isMatchFunc($ip, $this->ispGoogleCn)) {
-            return IpInfo::ISP_GOOGLE_CN;
-        }
-
         if ($isMatchFunc($ip, $this->ispTieTong)) {
             return IpInfo::ISP_TIE_TONG;
         }
@@ -379,6 +374,7 @@ class Ip
         if (isset($rangePart[1])) {
             $bits = $rangePart[1];
         }
+
         $bits = intval($bits);
 
         if ($bits === 0) {

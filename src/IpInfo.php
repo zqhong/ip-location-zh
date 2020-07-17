@@ -14,7 +14,6 @@ class IpInfo
     const ISP_CERNET = '教育网';
     const ISP_CSTNET = '科技网';
     const ISP_DRPENG = '鹏博士';
-    const ISP_GOOGLE_CN = '谷歌中国';
     const ISP_UNKNOWN = '未知';
 
     /**

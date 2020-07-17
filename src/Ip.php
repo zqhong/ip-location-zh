@@ -369,8 +369,19 @@ class Ip
      */
     private function cidrMatch($ip, $range)
     {
-        list ($subnet, $bits) = explode('/', $range);
-        if ($bits === null) {
+        $rangePart = explode('/', $range, 2);
+
+        $subnet = "";
+        $bits = 0;
+        if (isset($rangePart[0])) {
+            $subnet = $rangePart[0];
+        }
+        if (isset($rangePart[1])) {
+            $bits = $rangePart[1];
+        }
+        $bits = intval($bits);
+
+        if ($bits === 0) {
             $bits = 32;
         }
         $ip = ip2long($ip);

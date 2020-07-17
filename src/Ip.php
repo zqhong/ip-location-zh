@@ -6,12 +6,12 @@ use Exception;
 use InvalidArgumentException;
 use UnexpectedValueException;
 
+/**
+ * @package Zhuzhichao\IpLocationZh
+ */
 class Ip
 {
-    const IPV4 = 1;
-    const IPV6 = 2;
-
-    private $file = NULL;
+    private $file = null;
     private $fileSize = 0;
     private $nodeCount = 0;
     private $nodeOffset = 0;
@@ -65,6 +65,33 @@ class Ip
         }
 
         return 'N/A';
+    }
+
+    /**
+     * 查询 IP 信息，V2 版
+     *
+     * @param string $ip
+     * @return IpInfo
+     */
+    public static function findV2($ip)
+    {
+        $findResult = static::find($ip);
+        $ipInfo = new IpInfo();
+
+        if (isset($findResult[0])) {
+            $ipInfo->setCountry($findResult[0]);
+        }
+        if (isset($findResult[1])) {
+            $ipInfo->setProvince($findResult[1]);
+        }
+        if (isset($findResult[2])) {
+            $ipInfo->setCity($findResult[2]);
+        }
+        if (isset($findResult[4])) {
+            $ipInfo->setZipCode($findResult[4]);
+        }
+
+        return $ipInfo;
     }
 
     /**
@@ -162,7 +189,7 @@ class Ip
 
     public function close()
     {
-        if (is_resource($this->file) === TRUE) {
+        if (is_resource($this->file) === true) {
             fclose($this->file);
         }
     }

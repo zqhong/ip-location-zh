@@ -7,6 +7,21 @@ use PHPUnit\Framework\TestCase;
 
 class TestIp extends TestCase
 {
+    public function testFindV2()
+    {
+        $ipInfo = Ip::findV2("171.12.10.156");
+        $this->assertEquals("中国", $ipInfo->getCountry());
+        $this->assertEquals("河南", $ipInfo->getProvince());
+        $this->assertEquals("郑州", $ipInfo->getCity());
+        $this->assertEquals("410100", $ipInfo->getZipCode());
+
+        $ipInfo = Ip::findV2("127.0.0.1");
+        $this->assertEquals("本机地址", $ipInfo->getCountry());
+        $this->assertEquals("本机地址", $ipInfo->getProvince());
+        $this->assertEquals("", $ipInfo->getCity());
+        $this->assertEquals("", $ipInfo->getZipCode());
+    }
+
     public function testIpLocation()
     {
         $this->assertEquals(['中国', '河南', '郑州', '', '410100'], Ip::find('171.12.10.156'));

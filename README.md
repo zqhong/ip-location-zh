@@ -73,9 +73,6 @@ array (size=4)
 
 **对，很简单，只用一个方法，那就是 `find`**
 
-## Contributing
-有什么新的想法和建议，欢迎提交 [issue](https://github.com/zhuzhichao/ip-location-zh/issues) 或者 [Pull Requests](https://github.com/zhuzhichao/ip-location-zh/pulls) 。
-
 ## License
 MIT
 

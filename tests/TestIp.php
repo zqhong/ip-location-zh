@@ -13,31 +13,37 @@ class TestIp extends TestCase
         // 电信
         $ipInfo = Ip::findV2("171.12.10.156");
         $this->assertEquals(IpInfo::ISP_CHINA_NET, $ipInfo->getIsp());
+        unset($ipInfo);
 
         // 移动
-        $ipInfo = Ip::findV2("223.71.140.14");
+        $ipInfo = Ip::findV2("223.73.123.41");
         $this->assertEquals(IpInfo::ISP_CMCC, $ipInfo->getIsp());
+        unset($ipInfo);
 
         // 联通
-        $ipInfo = Ip::findV2("103.3.148.11");
-        $this->assertEquals(IpInfo::ISP_CMCC, $ipInfo->getIsp());
+        $ipInfo = Ip::findV2("103.3.152.11");
+        $this->assertEquals(IpInfo::ISP_UNICOM, $ipInfo->getIsp());
+        unset($ipInfo);
 
         // 铁通
         $ipInfo = Ip::findV2("120.90.0.41");
         $this->assertEquals(IpInfo::ISP_TIE_TONG, $ipInfo->getIsp());
+        unset($ipInfo);
 
         // 教育网
         $ipInfo = Ip::findV2("202.192.0.46");
-        $this->assertEquals(IpInfo::ISP_TIE_TONG, $ipInfo->getIsp());
+        $this->assertEquals(IpInfo::ISP_CERNET, $ipInfo->getIsp());
+        unset($ipInfo);
 
         // 科技网
         $ipInfo = Ip::findV2("210.73.0.11");
         $this->assertEquals(IpInfo::ISP_CSTNET, $ipInfo->getIsp());
+        unset($ipInfo);
 
         // 鹏博士
-        $ipInfo = Ip::findV2("43.243.144.7");
+        $ipInfo = Ip::findV2("175.189.1.66");
         $this->assertEquals(IpInfo::ISP_DRPENG, $ipInfo->getIsp());
-
+        unset($ipInfo);
     }
 
     public function testFindV2()

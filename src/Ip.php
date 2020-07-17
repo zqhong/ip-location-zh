@@ -323,6 +323,14 @@ class Ip
             return false;
         };
 
+        if ($isMatchFunc($ip, $this->ispDrPeng)) {
+            return IpInfo::ISP_DRPENG;
+        }
+
+        if ($isMatchFunc($ip, $this->ispCstNet)) {
+            return IpInfo::ISP_CSTNET;
+        }
+
         if ($isMatchFunc($ip, $this->ispCernet)) {
             return IpInfo::ISP_CERNET;
         }
@@ -333,14 +341,6 @@ class Ip
 
         if ($isMatchFunc($ip, $this->ispCmcc)) {
             return IpInfo::ISP_CMCC;
-        }
-
-        if ($isMatchFunc($ip, $this->ispCstNet)) {
-            return IpInfo::ISP_CSTNET;
-        }
-
-        if ($isMatchFunc($ip, $this->ispDrPeng)) {
-            return IpInfo::ISP_DRPENG;
         }
 
         if ($isMatchFunc($ip, $this->ispTieTong)) {

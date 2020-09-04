@@ -546,7 +546,9 @@ class QQwryIpLocation
 
         foreach ($this->dict_isp as $k => $v) {
             if (false !== strpos($str, $v)) {
-                return $map[$v];
+                if (isset($map[$v])) {
+                    return $map[$v];
+                }
             }
         }
 

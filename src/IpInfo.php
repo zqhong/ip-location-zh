@@ -14,6 +14,13 @@ class IpInfo
     const ISP_CERNET = '教育网';
     const ISP_CSTNET = '科技网';
     const ISP_DRPENG = '鹏博士';
+
+    const ISP_GWBN = '长城';
+    const ISP_JUYOU = '聚友';
+
+    const ISP_ALIYUN = '阿里云';
+    const ISP_QCLOUD = '腾讯云';
+
     const ISP_UNKNOWN = '未知';
 
     /**

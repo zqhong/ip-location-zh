@@ -44,6 +44,16 @@ class TestIp extends TestCase
         $ipInfo = Ip::findV2("175.189.1.66");
         $this->assertEquals(IpInfo::ISP_DRPENG, $ipInfo->getIsp());
         unset($ipInfo);
+
+        // 阿里云
+        $ipInfo = Ip::findV2("47.96.143.209");
+        $this->assertEquals(IpInfo::ISP_ALIYUN, $ipInfo->getIsp());
+        unset($ipInfo);
+
+        // 腾讯云
+        $ipInfo = Ip::findV2("139.199.11.12");
+        $this->assertEquals(IpInfo::ISP_QCLOUD, $ipInfo->getIsp());
+        unset($ipInfo);
     }
 
     public function testFindV2()

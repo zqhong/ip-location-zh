@@ -26,7 +26,9 @@ class Ip
 
     private $meta = [];
 
-    private $database = 'ipipfree.ipdb';
+    private $ipipDb = 'ipipfree.ipdb';
+
+    private $chunZhenDb = 'qqwry.dat';
 
     private static $reader = null;
 
@@ -242,7 +244,7 @@ class Ip
         }
 
         $reader = new self();
-        $databaseSrc = __DIR__ . '/' . $reader->database;
+        $databaseSrc = __DIR__ . '/' . $reader->ipipDb;
         if (is_readable($databaseSrc) === false) {
             throw new InvalidArgumentException("The IP Database file \"{$databaseSrc}\" does not exist or is not readable.");
         }
@@ -351,7 +353,11 @@ class Ip
             return IpInfo::ISP_UNICOM;
         }
 
-        return IpInfo::ISP_UNKNOWN;
+        // 没有这个 IP 的 ISP 数据的情况下，使用纯真数据库的数据
+        $dbSrc = __DIR__ . '/' . $this->chunZhenDb;
+        $chunZhenResult = QQwryIpLocation::getLocation($ip, $dbSrc);
+
+        return $chunZhenResult['isp'];
     }
 
     /**

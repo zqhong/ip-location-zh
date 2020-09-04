@@ -1,7 +1,7 @@
 
 ## 数据来源
 
-[https://github.com/gaoyifan/china-operator-ip/tree/ip-lists](https://github.com/gaoyifan/china-operator-ip/tree/ip-lists)
+[https://github.com/gaoyifan/china-operator-ip/tree/ip-lists](_https://github.com/gaoyifan/china-operator-ip/tree/ip-lists_)
 
 ## 收录的运营商
 * 中国电信(chinanet)

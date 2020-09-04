@@ -2,7 +2,34 @@
 
 数据最后更新时间为 2019-7-3, 更新时间:不定期。 数据源于: https://www.ipip.net/product/client.html
 
-这是一个能够通过 Ip，获取该 IP 所在的位置，例如通过 ip：`171.12.10.156` 可以获得是 `中国河南郑州`，以及中国行政区划代码(支持到市级), 同样能获得国外的地址，但是没有国内详细。
+## 安装
+
+```bash
+composer require -vvv zqhong/ip-location-zh
+```
+
+## 使用
+
+```php
+use Zhuzhichao\IpLocationZh\Ip;
+
+$ipInfo = Ip::findV2("47.96.140.2");
+
+printf("%s%s%s（%s）",
+    $ipInfo->getCountry(),
+    $ipInfo->getProvince(),
+    $ipInfo->getCity(),
+    $ipInfo->getIsp()
+);
+
+// 返回结果：中国 浙江 杭州（阿里云）
+// 具体代码请参考：examples.php
+```
+
+## 与原仓库的区别
+
+1. 添加 findV2 方法，返回 IpInfo 对象，提供更方便使用的结果
+2. 添加运营商（ISP）数据
 
 ## License
 

@@ -15,6 +15,10 @@ class TestIp extends TestCase
         $this->assertEquals(IpInfo::ISP_CHINA_NET, $ipInfo->getIsp());
         unset($ipInfo);
 
+        $ipInfo = Ip::findV2("171.12.10.156");
+        $this->assertEquals(IpInfo::ISP_CHINA_NET, $ipInfo->getIsp());
+        unset($ipInfo);
+
         // 移动
         $ipInfo = Ip::findV2("223.73.123.41");
         $this->assertEquals(IpInfo::ISP_CMCC, $ipInfo->getIsp());
@@ -46,7 +50,7 @@ class TestIp extends TestCase
         unset($ipInfo);
 
         // 阿里云
-        $ipInfo = Ip::findV2("47.96.143.209");
+        $ipInfo = Ip::findV2("47.96.140.2");
         $this->assertEquals(IpInfo::ISP_ALIYUN, $ipInfo->getIsp());
         unset($ipInfo);
 

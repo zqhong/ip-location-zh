@@ -16,14 +16,6 @@ class Ip
     private $nodeCount = 0;
     private $nodeOffset = 0;
 
-    private $ispCernet = [];
-    private $ispChinaNet = [];
-    private $ispCmcc = [];
-    private $ispCstNet = [];
-    private $ispDrPeng = [];
-    private $ispTieTong = [];
-    private $ispUnicom = [];
-
     private $meta = [];
 
     private $ipipDb = 'ipipfree.ipdb';
@@ -274,29 +266,9 @@ class Ip
         $reader->nodeCount = $reader->meta['node_count'];
         $reader->nodeOffset = 4 + $metaLength;
 
-        $reader->readIspData();
-
         self::$reader = $reader;
 
         return $reader;
-    }
-
-    /**
-     * 读取 ISP 数据
-     */
-    private function readIspData()
-    {
-        $readFuc = function ($filePath) {
-            if (is_readable($filePath) === false) {
-                throw new InvalidArgumentException("The CIDR file \"{$filePath}\" does not exist or is not readable.");
-            }
-            $content = file_get_contents($filePath);
-            $cidrArr = explode("\n", $content);
-            foreach ($cidrArr as $k => $cidr) {
-                $cidrArr[$k] = trim($cidr);
-            }
-            return $cidrArr;
-        };
     }
 
     /**
@@ -311,39 +283,6 @@ class Ip
         $chunZhenResult = QQwryIpLocation::getLocation($ip, $dbSrc);
 
         return $chunZhenResult['isp'];
-    }
-
-    /**
-     * 检查 $ip 是否在 $range（CIDR） 这个范围内
-     *
-     * @see https://stackoverflow.com/questions/594112/matching-an-ip-to-a-cidr-mask-in-php-5
-     * @param string $ip IP 地址，示例：233.5.5.5
-     * @param string $range CIDR，示例：43.252.48.0/24
-     * @return bool
-     */
-    private function cidrMatch($ip, $range)
-    {
-        $rangePart = explode('/', $range, 2);
-
-        $subnet = "";
-        $bits = 0;
-        if (isset($rangePart[0])) {
-            $subnet = $rangePart[0];
-        }
-        if (isset($rangePart[1])) {
-            $bits = $rangePart[1];
-        }
-
-        $bits = intval($bits);
-
-        if ($bits === 0) {
-            $bits = 32;
-        }
-        $ip = ip2long($ip);
-        $subnet = ip2long($subnet);
-        $mask = -1 << (32 - $bits);
-        $subnet &= $mask; # nb: in case the supplied subnet wasn't correctly aligned
-        return ($ip & $mask) == $subnet;
     }
 
     /**

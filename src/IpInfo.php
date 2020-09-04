@@ -7,22 +7,6 @@ namespace Zhuzhichao\IpLocationZh;
  */
 class IpInfo
 {
-    const ISP_CHINA_NET = '中国电信';
-    const ISP_CMCC = '中国移动';
-    const ISP_UNICOM = '中国联通';
-    const ISP_TIE_TONG = '中国铁通';
-    const ISP_CERNET = '教育网';
-    const ISP_CSTNET = '科技网';
-    const ISP_DRPENG = '鹏博士';
-
-    const ISP_GWBN = '长城';
-    const ISP_JUYOU = '聚友';
-
-    const ISP_ALIYUN = '阿里云';
-    const ISP_QCLOUD = '腾讯云';
-
-    const ISP_UNKNOWN = '未知';
-
     /**
      * @var string 国家名称
      */

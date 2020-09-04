@@ -297,15 +297,6 @@ class Ip
             }
             return $cidrArr;
         };
-
-        $this->ispCernet = $readFuc(__DIR__ . '/data/isp/cernet.txt');
-        $this->ispChinaNet = $readFuc(__DIR__ . '/data/isp/chinanet.txt');
-        $this->ispCmcc = $readFuc(__DIR__ . '/data/isp/cmcc.txt');
-        $this->ispCstNet = $readFuc(__DIR__ . '/data/isp/cstnet.txt');
-        $this->ispDrPeng = $readFuc(__DIR__ . '/data/isp/drpeng.txt');
-        $this->ispGoogleCn = $readFuc(__DIR__ . '/data/isp/googlecn.txt');
-        $this->ispTieTong = $readFuc(__DIR__ . '/data/isp/tietong.txt');
-        $this->ispUnicom = $readFuc(__DIR__ . '/data/isp/unicom.txt');
     }
 
     /**
@@ -316,44 +307,6 @@ class Ip
      */
     private function getIsp($ip)
     {
-        $isMatchFunc = function ($ip, $rangeArr) {
-            foreach ($rangeArr as $range) {
-                if ($this->cidrMatch($ip, $range)) {
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        if ($isMatchFunc($ip, $this->ispDrPeng)) {
-            return IpInfo::ISP_DRPENG;
-        }
-
-        if ($isMatchFunc($ip, $this->ispCstNet)) {
-            return IpInfo::ISP_CSTNET;
-        }
-
-        if ($isMatchFunc($ip, $this->ispCernet)) {
-            return IpInfo::ISP_CERNET;
-        }
-
-        if ($isMatchFunc($ip, $this->ispChinaNet)) {
-            return IpInfo::ISP_CHINA_NET;
-        }
-
-        if ($isMatchFunc($ip, $this->ispCmcc)) {
-            return IpInfo::ISP_CMCC;
-        }
-
-        if ($isMatchFunc($ip, $this->ispTieTong)) {
-            return IpInfo::ISP_TIE_TONG;
-        }
-
-        if ($isMatchFunc($ip, $this->ispUnicom)) {
-            return IpInfo::ISP_UNICOM;
-        }
-
-        // 没有这个 IP 的 ISP 数据的情况下，使用纯真数据库的数据
         $dbSrc = __DIR__ . '/' . $this->chunZhenDb;
         $chunZhenResult = QQwryIpLocation::getLocation($ip, $dbSrc);
 

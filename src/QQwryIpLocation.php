@@ -531,28 +531,13 @@ class QQwryIpLocation
      */
     private function getIsp($str)
     {
-        $map = [
-            '联通' => IpInfo::ISP_UNICOM,
-            '移动' => IpInfo::ISP_CMCC,
-            '铁通' => IpInfo::ISP_TIE_TONG,
-            '电信' => IpInfo::ISP_CHINA_NET,
-
-            '长城' => IpInfo::ISP_GWBN,
-            '聚友' => IpInfo::ISP_JUYOU,
-
-            '阿里云' => IpInfo::ISP_ALIYUN,
-            '腾讯云' => IpInfo::ISP_QCLOUD,
-        ];
-
         foreach ($this->dict_isp as $k => $v) {
             if (false !== strpos($str, $v)) {
-                if (isset($map[$v])) {
-                    return $map[$v];
-                }
+                return $v;
             }
         }
 
-        return IpInfo::ISP_UNKNOWN;
+        return $str;
     }
 
     /**
